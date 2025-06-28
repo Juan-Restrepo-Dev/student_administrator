@@ -34,7 +34,7 @@ INFO_CREATE_STUDENT = [
                 "ingresalo y preciona enter",
 
                 "Luego Notas del estudiante de manera individual  la nota individual "
-                "de las 5 materias del estudiante"
+                "de las 5 materias del estudiante",
                 "recuerda que las notas son del 0 al 10",
 
                 "",
@@ -45,8 +45,16 @@ INFO_CREATE_STUDENT = [
                 "Escribe todos los datos del estudiante a la vez",
 
                 "separándolas con una coma con el siguiente orden: " +
-                CONSOLE_STYLING["BOLD_TYPE"] + "(Nombre del estudiante, Identificacion del estudiante, "
-                "Identificacion del estudiante, Nota 1, Nota 2, Nota 3, Nota 4,Nota 5)"+CONSOLE_STYLING["END_COMAND"],
+                CONSOLE_STYLING["BOLD_TYPE"] , 
+                "("
+                "Nombre del estudiante", 
+                "Identificacion del estudiante", 
+                "Identificacion del estudiante",
+                "Nota 1",
+                "Nota 2", 
+                "Nota 3", 
+                "Nota 4",
+                "Nota 5)"+CONSOLE_STYLING["END_COMAND"],
 
                 "nota:Utiliza puntos para el decimales usar en la nota del estudiante",
 
@@ -55,3 +63,29 @@ INFO_CREATE_STUDENT = [
                 CONSOLE_STYLING["END_COMAND"],
 
                 ""]
+NO_STUDENTS_FOUND =[
+                CONSOLE_STYLING['BOLD_TYPE'] + "Bienvenido" +
+                CONSOLE_STYLING['END_COMAND'],
+
+                "",
+
+                CONSOLE_STYLING['BOLD_TYPE'] + CONSOLE_STYLING["YELLOW"] +
+                "⚠️  Atencion! ⚠️ " +
+                CONSOLE_STYLING['END_COMAND'],
+
+                "",
+
+                "No tienes estudiantes registrados en tu "
+                "Deberias ingresar al menos 5 estudiantes",
+
+                ""
+        ]
+HEADERS_DATA_TABLE = [CONSOLE_STYLING['BACKGROUND_BLUE']+("Nombre de estudiante").ljust(7) + CONSOLE_STYLING['END_COMAND'],
+                                    CONSOLE_STYLING['BACKGROUND_BLUE']+("identificacion").ljust(7) + CONSOLE_STYLING['END_COMAND'],
+                                    CONSOLE_STYLING['BACKGROUND_BLUE']+("edad").ljust(6) + CONSOLE_STYLING['END_COMAND'],
+                                    CONSOLE_STYLING['BACKGROUND_BLUE']+("Materia 1").ljust(7) + CONSOLE_STYLING['END_COMAND'],
+                                    CONSOLE_STYLING['BACKGROUND_BLUE']+("Materia 2").ljust(7) + CONSOLE_STYLING['END_COMAND'],
+                                    CONSOLE_STYLING['BACKGROUND_BLUE']+("Materia 3").ljust(7) + CONSOLE_STYLING['END_COMAND'],
+                                    CONSOLE_STYLING['BACKGROUND_BLUE']+("Materia 4").ljust(7) + CONSOLE_STYLING['END_COMAND'],
+                                    CONSOLE_STYLING['BACKGROUND_BLUE']+("Materia 5").ljust(7) + CONSOLE_STYLING['END_COMAND'],
+                                    ]
