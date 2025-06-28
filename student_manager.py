@@ -16,11 +16,12 @@ def text_bold(text:list|str) -> list|str:
     if type(text) == list:
         stylized_text = []
         for lineText in text:
-            stylized_text.append(system_constans.CONSOLE_STYLING['BOLD_TYPE'] + lineText.ljust(95) +\
-                                 system_constans.CONSOLE_STYLING['END_COMAND'],)
+            stylized_text.append(system_constans.CONSOLE_STYLING['BOLD_TYPE'] + lineText.ljust(95) +
+                                 system_constans.CONSOLE_STYLING['END_COMAND'])
         return stylized_text    
     else:
-        return system_constans.CONSOLE_STYLING['BOLD_TYPE'] + text.ljust(20) + system_constans.CONSOLE_STYLING['END_COMAND']
+        return system_constans.CONSOLE_STYLING['BOLD_TYPE'] + text.ljust(2) + system_constans.CONSOLE_STYLING['END_COMAND']
+
 def style_text_for_the_box(text:str,total_width):
     """
     Function that styles strings for the box type using ANSI
@@ -35,8 +36,8 @@ def style_text_for_the_box(text:str,total_width):
     print(system_constans.CONSOLE_STYLING["CYAN"]+"║"+system_constans.CONSOLE_STYLING["END_COMAND"] +
                     system_constans.CONSOLE_STYLING["BOLD_TYPE"] +
                     system_constans.CONSOLE_STYLING["BLUE"] +
-                    "  " + (f"({text}) => ").
-                    ljust(total_width -2) +system_constans.CONSOLE_STYLING["CYAN"] + "║")
+                    "  " + (f"({text})").
+                    ljust(total_width) +system_constans.CONSOLE_STYLING["CYAN"] + "║"+system_constans.CONSOLE_STYLING["END_COMAND"])
 
 def style_error_for_the_box(text:str,total_width):
     """
@@ -52,7 +53,7 @@ def style_error_for_the_box(text:str,total_width):
     print(system_constans.CONSOLE_STYLING["CYAN"]+"║"+system_constans.CONSOLE_STYLING["END_COMAND"] +
                     system_constans.CONSOLE_STYLING["BOLD_TYPE"] +
                     system_constans.CONSOLE_STYLING["RED"] +
-                    "  " + (f"({text}) => ").
+                    "  " + (f"({text})").
                     ljust(total_width - 2) +
                     system_constans.CONSOLE_STYLING["CYAN"] + "║")
 
@@ -174,18 +175,25 @@ def paint_box(type:str = "menu", title:str = "" ,data_table=None, text=None):
                             )
                     elif system_constans.CONSOLE_STYLING["GREEN"] in str(valor):
                         print(
-                            str(valor).ljust(column_width[i] + 17) +
+                            str(valor).ljust(column_width[i] + 3) +
                             system_constans.CONSOLE_STYLING["CYAN"] + "║" +
                             system_constans.CONSOLE_STYLING["END_COMAND"],
                             end=""
                             )
                     elif system_constans.CONSOLE_STYLING["RED"] in str(valor):
                         print(
-                            str(valor).ljust(column_width[i] + 17) +
+                            str(valor).ljust(column_width[i] + 3) +
                             system_constans.CONSOLE_STYLING["CYAN"] + "║" +
                             system_constans.CONSOLE_STYLING["END_COMAND"],
                             end=""
-                            )        
+                            )
+                    elif system_constans.CONSOLE_STYLING["YELLOW"] in str(valor):
+                        print(
+                            str(valor).ljust(column_width[i] + 3) +
+                            system_constans.CONSOLE_STYLING["CYAN"] + "║" +
+                            system_constans.CONSOLE_STYLING["END_COMAND"],
+                            end=""
+                            )            
                     elif system_constans.CONSOLE_STYLING["BACKGROUND_GREEN"] in str(valor):
                         print(
                             str(valor).ljust(column_width[i] + 15) +
@@ -243,42 +251,63 @@ def create_student(student,total_width):
     if student.count(",") == 7:
         try:   
             student_data = student.split(",")  
-            student =  {"name_student": student_data[0],
-                        "id":int(student_data[1]),
-                        "age":int(student_data[2]),
-                        "grade1":float(student_data[3]),
-                        "grade2":float(student_data[4]),
-                        "grade3":float(student_data[5]),
-                        "grade4":float(student_data[6]),
-                        "grade5":float(student_data[7]),          
-                        }
-            if check_if_the_student_exist(student["id"]):
-                style_text_for_the_box("El estudiante",student["name_student"], "ya esta registrado en el sistema",total_width)
+            if len(student_data[0]) < 30 and str(student_data[0]).replace(" ", "").isalpha() :
+                student =  {"name_student": student_data[0]}
             else:
-                if student["grade1"] > 0 and student["grade1"] < 10 and student["grade2"] > 0 and student["grade2"] < 10 and student["grade3"] > 0 and student["grade3"] < 10 and student["grade4"] > 0 and student["grade4"] < 10 and student["grade5"] > 0 and student["grade5"] < 10:
+                raise ValueError("El nombre esta mal escrito no puede estar vacio ni contener simbolos o numeros")
+                
+            if str(student_data[1]).isdigit() and len(student_data[1]) >= 8 and len(student_data[1]) <= 10:
+                student["id"] = int(student_data[1])
+            else:
+                raise ValueError("la identificacion del estudiante es numerica y debe tener de 8 a 10 digito")    
+            if str(student_data[2]).isdigit() and int(student_data[2]) > 3 and int(student_data[2]) < 86:    
+                student["age"] = int(student_data[2])
+            else:
+                raise ValueError("la edad del estudiante debe estar entre 4 y 85 años")    
+        
+            if float(student_data[3]) > 0 and float(student_data[3]) < 10 and float(student_data[4]) > 0 and float(student_data[4]) < 10 and float(student_data[5]) > 0 and float(student_data[5]) < 10 and float(student_data[6]) > 0 and float(student_data[6]) < 10 and float(student_data[7]) > 0 and float(student_data[7]) < 10: 
+                student["grade1"] = float(student_data[3]) 
+                student["grade2"] = float(student_data[4])  
+                student["grade3"] = float(student_data[5])
+                student["grade4"] = float(student_data[6])
+                student["grade5"] = float(student_data[7])
+            else:
+                raise ValueError("Las notas deben estar entre el 0 y el 10")
+
+
+            if check_if_the_student_exist(student["id"]):
+                raise ValueError("El estudiante",student["name_student"], "ya esta registrado en el sistema")
+            else:
                     STUDENTS.append(student)
                     #logs function
                     style_text_for_the_box("El estudiante se a añadido con exito",total_width)
-                else:
-                    style_error_for_the_box("Las notas deben estar entre el 0 y el 10",total_width)
                     
-        except ValueError as ex:
+        except ValueError as e:
             style_text_for_the_box("Ingresa los datos de manera valida",total_width)  
-            style_error_for_the_box(f"  Ingresa un valor valido. el error es:{ex}",total_width)
+            style_error_for_the_box("Ingresa un valor valido. el error es =>",total_width)
+            style_error_for_the_box(e,total_width)
+
     elif "," not in student:
+    
         try:
             while True:
-                id = int(style_input_for_the_box("Ingresa la identificacion del estudiante",total_width))
-                if id > 0:
+                if  len(student) < 30 and str(student).replace(" ", "").isalpha() :
                     break
                 else:
-                    style_error_for_the_box("la identidicacion no puede ser 0 o contener letras",total_width)
+                    raise ValueError("El nombre esta mal escrito no puede estar vacio ni contener simbolos o numeros")
+                    
+            while True:
+                id = int(style_input_for_the_box("Ingresa la identificacion del estudiante",total_width))
+                if len(str(id)) >= 8 and len(str(id)) <= 10:
+                    break
+                else:
+                    style_error_for_the_box("la identificacion del estudiante es numerica y debe tener de 8 a 10 digito",total_width)
             while True:
                 age = int(style_input_for_the_box("Ingresa la edad del estudiante",total_width))
-                if age > 0:
+                if age > 3 and age < 86:
                     break
                 else:
-                    style_error_for_the_box("la edad del estudiante tiene que ser mayor a 0",total_width)
+                    style_error_for_the_box("la edad del estudiante debe estar entre 4 y 85 años",total_width)
             while True:
                 grade1 = float(style_input_for_the_box("Ingresa las notas de la Materia 1",total_width))
                 if grade1 > 0 and grade1 < 10:
@@ -325,15 +354,63 @@ def create_student(student,total_width):
                  #logs function
                 style_text_for_the_box("El estudiante se a añadido con exito",total_width)    
                 
-        except ValueError as ex:
-            style_error_for_the_box(f"Ingresa un valor valido. el error es:{ex}",total_width)
+        except ValueError as e:
+            style_text_for_the_box("Ingresa los datos de manera valida",total_width)  
+            style_error_for_the_box("Ingresa un valor valido. el error es =>",total_width)
+            style_error_for_the_box(e,total_width)
             
     else:
-        style_error_for_the_box("No has ingresado el estudiante de manera correcta",total_width)
+        style_error_for_the_box("Ingresa los datos de manera valida",total_width)
+        style_error_for_the_box("(ejemplo: Juan Jose Restrepo,1152335520,27,8.9,9.5,7.5,9.3,6.4 ).",total_width)  
+
+def filter_students(text_search,dic_key,type, total_width):
+    filter_value= style_input_for_the_box(text_search,total_width)
+    try:
+        if type == "equal_to":
+            if dic_key == "id" or dic_key == "age" or  dic_key == "grade1" or dic_key == "grade2" or dic_key == "grade3" or dic_key == "grade4" or  dic_key == "grade5":
+                filter_students = list(filter(lambda x: x[dic_key] == int(filter_value), STUDENTS))
+                return filter_students
+            else:
+                filter_students = list(filter(lambda x: x[dic_key] == filter_value, STUDENTS))
+                return filter_students
+        elif type == "greater_than":
+            filter_students = list(filter(lambda x: x[dic_key] >= int(filter_value), STUDENTS))
+            return filter_students
+        elif type == "less_than":
+            filter_students = list(filter(lambda x: x[dic_key] <= int(filter_value), STUDENTS))
+            return filter_students
+
+        
+    except ValueError:
+        style_error_for_the_box("No hay coincidencias con la busqueda comprueba que los datos este bien escritos")
+    
+def edit_product(id,column_value,new_value):
+    for dic in STUDENTS:
+        if dic["id"] == id:
+             dic[column_value] = new_value 
+
+def delete_product(product_name):
+    try:
+        for dic in STUDENTS:
+            if dic["name_product"] == product_name:
+                STUDENTS.remove(dic)
+                #logfuntion
+    except ValueError:
+        print(ValueError)            
 
 def show_datatable_studens():
     data_table = [system_constans.HEADERS_DATA_TABLE]
+    
     for student in STUDENTS:
+        list_grades = [student["grade1"],student["grade2"],student["grade3"],
+                       student["grade4"],student["grade5"],]
+        average = sum(list_grades) / len(list_grades)
+        if average > 7 :
+            average = system_constans.CONSOLE_STYLING['GREEN']+(f"{average}").ljust(1) + system_constans.CONSOLE_STYLING['END_COMAND']
+        elif average > 5:
+            average = system_constans.CONSOLE_STYLING['YELLOW']+(f"{average}").ljust(1) + system_constans.CONSOLE_STYLING['END_COMAND']
+        else:
+            average = system_constans.CONSOLE_STYLING['RED']+(f"{average}").ljust(1) + system_constans.CONSOLE_STYLING['END_COMAND']         
         data_table.append([student["name_student"], 
                           student["id"],
                           student["age"],
@@ -342,9 +419,29 @@ def show_datatable_studens():
                           student["grade3"],
                           student["grade4"],
                           student["grade5"],
+                          average
                          ])
     total_width = paint_box(type="data_table",data_table=data_table)
-        
+    paint_box(title="filtrar datos ->",text=system_constans.MENU_FILTER)
+    option = style_input_for_the_box("Ingresa una opcion",total_width)
+    headers_data_table = system_constans.HEADERS_DATA_TABLE
+    flag = True
+    while flag:
+        match option:
+            case "1":
+                break
+            case "2":
+                break
+            case "3":
+                break
+            case "4":
+                break
+            case "5":
+                break
+            case "6":
+                break
+            case _:
+                break                            
 
 def show_create_student():
     """
@@ -370,7 +467,6 @@ def show_create_student():
             break
         else:
             style_error_for_the_box("Ingresa una opcion valida",total_width)    
-
 
 def show_main_menu():
     """
@@ -403,8 +499,100 @@ def show_main_menu():
                                 show_create_student()
                             case "2":
                                 show_datatable_studens()
-                            case "3": exit()
-                        
+                            case "3":
+                                try:
+                                    edit_status = True
+                                    while edit_status:
+                                        student_id = int(style_input_for_the_box("Ingresa la identificacion del estudiante que quieres editar",total_width))
+                                        
+                                        if check_if_the_student_exist(student_id):
+                                            text_bold("Ingresa la columna que quieres editar")
+                                            filter_column = style_input_for_the_box(system_constans.MENU_EDIT,total_width)
+                                            match filter_column:
+                                                case "1":
+                                                    new_value = style_input_for_the_box("Ingresa el nuevo valor",total_width)
+                                                    if  len(new_value) < 30 and str(new_value).replace(" ", "").isalpha() :
+                                                        edit_product(student_id,"name_student",new_value)
+
+                                                        style_text_for_the_box("se ha editado correctamente",total_width)
+                                                        edit_status = False
+                                                    else:
+                                                        raise ValueError("El nombre esta mal escrito no puede estar vacio ni contener simbolos o numeros")
+                                                case "2":
+                                                    new_value = int(style_input_for_the_box("Ingresa el nuevo valor",total_width))
+                                                    if  len(str(new_value)) >= 8 and len(str(new_value)) <= 10() :
+                                                        edit_product(student_id,"id",new_value)
+                                                        style_text_for_the_box("se ha editado correctamente",total_width)
+                                                        edit_status = False
+                                                    else:
+                                                        raise ValueError("la identificacion del estudiante es numerica y debe tener de 8 a 10 digito")
+                                                case "3":
+                                                    new_value = int(style_input_for_the_box("Ingresa el nuevo valor",total_width))
+                                                    if  new_value> 3 and new_value< 86() :
+                                                        edit_product(student_id,"age",new_value)
+                                                        style_text_for_the_box("se ha editado correctamente",total_width)
+                                                        edit_status = False
+                                                    else:
+                                                        raise ValueError("la edad del estudiante debe estar entre 4 y 85 años")
+                                                case "4":
+                                                    new_value = float(style_input_for_the_box("Ingresa el nuevo valor",total_width))
+                                                    if  new_value > 0 and new_value < 10() :
+                                                        edit_product(student_id,"grade1",new_value)
+                                                        style_text_for_the_box("se ha editado correctamente",total_width)
+                                                        edit_status = False
+                                                    else:
+                                                        raise ValueError("La nota debe estar en el rango de 0 a 10")
+                                                case "5":
+                                                    new_value = float(style_input_for_the_box("Ingresa el nuevo valor",total_width))
+                                                    if  new_value > 0 and new_value < 10() :
+                                                        edit_product(student_id,"grade2",new_value)
+                                                        style_text_for_the_box("se ha editado correctamente",total_width)
+                                                        edit_status = False
+                                                    else:
+                                                        raise ValueError("La nota debe estar en el rango de 0 a 10")
+                                                case "6":
+                                                    new_value = float(style_input_for_the_box("Ingresa el nuevo valor",total_width))
+                                                    if  new_value > 0 and new_value < 10() :
+                                                        edit_product(student_id,"grade3",new_value)
+                                                        style_text_for_the_box("se ha editado correctamente",total_width)
+                                                        edit_status = False
+                                                    else:
+                                                        raise ValueError("La nota debe estar en el rango de 0 a 10") 
+                                                case "7":
+                                                    new_value = float(style_input_for_the_box("Ingresa el nuevo valor",total_width))
+                                                    if  new_value > 0 and new_value < 10() :
+                                                        edit_product(student_id,"grade4",new_value)
+                                                        style_text_for_the_box("se ha editado correctamente",total_width)
+                                                        edit_status = False
+                                                    else:
+                                                        raise ValueError("La nota debe estar en el rango de 0 a 10")
+                                                case "8":
+                                                    new_value = float(style_input_for_the_box("Ingresa el nuevo valor",total_width))
+                                                    if  new_value > 0 and new_value < 10() :
+                                                        edit_product(student_id,"grade5",new_value)
+                                                        style_text_for_the_box("se ha editado correctamente",total_width)
+                                                        edit_status = False
+                                                    else:
+                                                        raise ValueError("La nota debe estar en el rango de 0 a 10")
+                                                case "9":
+                                                    edit_status = False
+
+                                                case _:
+                                                    style_error_for_the_box("ingresa una opocion valida",total_width)                 
+                                        else:
+                                            style_error_for_the_box("No se encuentra al estudiante",total_width)
+                                except ValueError as e:
+                                    style_error_for_the_box(e)
+
+                            case "4":
+                                student = style_input_for_the_box("Ingresa la identificacion del estudiante que quieres eliminar",total_width)
+                                if check_if_the_student_exist(student):
+                                    delete_product(student)
+                                    style_text_for_the_box("El estudiante se elimino con exito",total_width)
+                                else:
+                                    style_error_for_the_box("El estudiante no esta registrado",total_width) 
+                            case "5":
+                                flag = False        
                             case _:
                                 style_error_for_the_box("Ingresa una opcion valida",total_width)        
                 case "2":
@@ -453,4 +641,5 @@ def show_main_menu():
                 else:
                     style_error_for_the_box("Ingresa una opcionvalida",total_width)
                     continue
+
 show_main_menu()

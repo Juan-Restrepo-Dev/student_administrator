@@ -16,6 +16,29 @@ NAME_SYSTEM = "GESTOR DE ESTUDIANTES"
 MENU_PRINCIPAL = ["(1) Estudiantes","(2) Logs","(4) salir"]
 MENU_STUDENTS = ["(1) Crear Estudiante","(2) Mostrar Estudiantes","(3) Editar Estudiante",
                  "(4) eliminar Estudiante","(5) volver"]
+MENU_FILTER = [
+                "(1): Nombre de el estudiante",
+                "(2): ID de el estudiante",
+                "(3): Edad de el estudiante",
+                "(4): mayor o igual que",
+                "(5): menor o igual que",
+                "(6): volver"
+              ]
+
+MENU_EDIT = [
+                "(1): Nombre de el estudiante",
+                "(2): ID de el estudiante",
+                "(3): Edad de el estudiante",
+                "(4): Materia 1",
+                "(5): Materia 2",
+                "(6): Materia 3",
+                "(7): Materia 4",
+                "(8): Materia 5",
+                "(9): Volver",
+              ]
+
+
+
 INFO_CREATE_STUDENT = [
                 CONSOLE_STYLING['BOLD_TYPE'] + "Puedes hacerlo de dos maneras:"
                 + CONSOLE_STYLING['END_COMAND'],
@@ -49,7 +72,7 @@ INFO_CREATE_STUDENT = [
                 "("
                 "Nombre del estudiante", 
                 "Identificacion del estudiante", 
-                "Identificacion del estudiante",
+                "Edad del estudiante",
                 "Nota 1",
                 "Nota 2", 
                 "Nota 3", 
@@ -59,7 +82,7 @@ INFO_CREATE_STUDENT = [
                 "nota:Utiliza puntos para el decimales usar en la nota del estudiante",
 
                 CONSOLE_STYLING["BOLD_TYPE"] +
-                "(ejemplo: Juan Jose Restrepo, 10654564654 , 27 , 8.9, 9.5, 7.5, 9.3 )." +
+                "(ejemplo: Juan Jose Restrepo,1152335520,27,8.9,9.5,7.5,9.3,6.4 )." +
                 CONSOLE_STYLING["END_COMAND"],
 
                 ""]
@@ -80,12 +103,13 @@ NO_STUDENTS_FOUND =[
 
                 ""
         ]
-HEADERS_DATA_TABLE = [CONSOLE_STYLING['BACKGROUND_BLUE']+("Nombre de estudiante").ljust(7) + CONSOLE_STYLING['END_COMAND'],
-                                    CONSOLE_STYLING['BACKGROUND_BLUE']+("identificacion").ljust(7) + CONSOLE_STYLING['END_COMAND'],
-                                    CONSOLE_STYLING['BACKGROUND_BLUE']+("edad").ljust(6) + CONSOLE_STYLING['END_COMAND'],
-                                    CONSOLE_STYLING['BACKGROUND_BLUE']+("Materia 1").ljust(1) + CONSOLE_STYLING['END_COMAND'],
-                                    CONSOLE_STYLING['BACKGROUND_BLUE']+("Materia 2").ljust(1) + CONSOLE_STYLING['END_COMAND'],
-                                    CONSOLE_STYLING['BACKGROUND_BLUE']+("Materia 3").ljust(1) + CONSOLE_STYLING['END_COMAND'],
-                                    CONSOLE_STYLING['BACKGROUND_BLUE']+("Materia 4").ljust(1) + CONSOLE_STYLING['END_COMAND'],
-                                    CONSOLE_STYLING['BACKGROUND_BLUE']+("Materia 5").ljust(1) + CONSOLE_STYLING['END_COMAND'],
+HEADERS_DATA_TABLE = [CONSOLE_STYLING['BACKGROUND_BLUE']+"Nombre de estudiante" + CONSOLE_STYLING['END_COMAND'],
+                                    CONSOLE_STYLING['BACKGROUND_BLUE']+"identificacion" + CONSOLE_STYLING['END_COMAND'],
+                                    CONSOLE_STYLING['BACKGROUND_BLUE']+"edad" + CONSOLE_STYLING['END_COMAND'],
+                                    CONSOLE_STYLING['BACKGROUND_BLUE']+"Materia 1" + CONSOLE_STYLING['END_COMAND'],
+                                    CONSOLE_STYLING['BACKGROUND_BLUE']+"Materia 2" + CONSOLE_STYLING['END_COMAND'],
+                                    CONSOLE_STYLING['BACKGROUND_BLUE']+"Materia 3" + CONSOLE_STYLING['END_COMAND'],
+                                    CONSOLE_STYLING['BACKGROUND_BLUE']+"Materia 4" + CONSOLE_STYLING['END_COMAND'],
+                                    CONSOLE_STYLING['BACKGROUND_BLUE']+"Materia 5" + CONSOLE_STYLING['END_COMAND'],
+                                    CONSOLE_STYLING['BACKGROUND_BLUE']+"promedio" + CONSOLE_STYLING['END_COMAND'],
                                     ]
