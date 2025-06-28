@@ -156,9 +156,9 @@ def paint_box(type:str = "menu", title:str = "" ,data_table=None, text=None):
             column_width = [max(len(str(col)) for col in column)for
                             column in zip(*data_table)]
        
-            total_width = (sum(column_width) + 32)
+            total_width = (sum(column_width)+ 36)
             # Crete table
-            print(system_constans.CONSOLE_STYLING["CYAN"] + "╠" + "╦".join(["═" * (width + 6)
+            print(system_constans.CONSOLE_STYLING["CYAN"] + "╠" + "╦".join(["═" * (width - 8)
                   for width in column_width]) + "╣")
             
             for fila in data_table:
@@ -167,7 +167,7 @@ def paint_box(type:str = "menu", title:str = "" ,data_table=None, text=None):
                 for i, valor in enumerate(fila):
                     if system_constans.CONSOLE_STYLING["BACKGROUND_BLUE"] in str(valor):
                         print(
-                            str(valor).ljust(column_width[i] + 15) +
+                            str(valor).ljust(column_width[i] + 1) +
                             system_constans.CONSOLE_STYLING["CYAN"] + "║" +
                             system_constans.CONSOLE_STYLING["END_COMAND"],
                             end=""
@@ -195,17 +195,17 @@ def paint_box(type:str = "menu", title:str = "" ,data_table=None, text=None):
                             )    
                     else:
                         print(
-                            str(valor).ljust(column_width[i] + 6) +
+                            str(valor).ljust(column_width[i] - 8) +
                             system_constans.CONSOLE_STYLING["CYAN"] + "║" +
                             system_constans.CONSOLE_STYLING["END_COMAND"],
                             end=""
                             )
                 print("")        
                 print(system_constans.CONSOLE_STYLING["CYAN"] + "╠" + "╬".join(["═" * (
-                      width + 6) for width in column_width]) + "╣" +
+                      width - 8) for width in column_width]) + "╣" +
                       system_constans.CONSOLE_STYLING["END_COMAND"])
             print(system_constans.CONSOLE_STYLING["CYAN"] + "╚" + "╩".join(["═" * (
-                  width + 6) for width in column_width]) + "╝" +
+                  width - 8) for width in column_width]) + "╝" +
                   system_constans.CONSOLE_STYLING["END_COMAND"]) 
             return total_width
         case _:
@@ -223,7 +223,7 @@ def check_if_the_student_exist(student_reference,search_key:str="id"):
     Returns:
         boolean if the student exists returns true if it does not exist returns false
     """ 
-    return any(student.get(search_key) == search_key for student in STUDENTS)
+    return any(student.get(search_key) == student_reference for student in STUDENTS)
     
 def create_student(student,total_width):
     """
@@ -264,7 +264,7 @@ def create_student(student,total_width):
                     
         except ValueError as ex:
             style_text_for_the_box("Ingresa los datos de manera valida",total_width)  
-            style_error_for_the_box(f"  Ingresa un valor valido. el error es:{ex}")
+            style_error_for_the_box(f"  Ingresa un valor valido. el error es:{ex}",total_width)
     elif "," not in student:
         try:
             while True:
@@ -272,43 +272,43 @@ def create_student(student,total_width):
                 if id > 0:
                     break
                 else:
-                    style_error_for_the_box("la identidicacion no puede ser 0 o contener letras")
+                    style_error_for_the_box("la identidicacion no puede ser 0 o contener letras",total_width)
             while True:
                 age = int(style_input_for_the_box("Ingresa la edad del estudiante",total_width))
                 if age > 0:
                     break
                 else:
-                    style_error_for_the_box("la edad del estudiante tiene que ser mayor a 0")
+                    style_error_for_the_box("la edad del estudiante tiene que ser mayor a 0",total_width)
             while True:
                 grade1 = float(style_input_for_the_box("Ingresa las notas de la Materia 1",total_width))
                 if grade1 > 0 and grade1 < 10:
                     break
                 else:
-                    style_error_for_the_box("La nota debe estar en el rango de 0 a 10")
+                    style_error_for_the_box("La nota debe estar en el rango de 0 a 10",total_width)
             while True:
                 grade2 = float(style_input_for_the_box("Ingresa las notas de la Materia 2",total_width))
                 if grade2 > 0 and grade2 < 10:
                     break
                 else:
-                    style_error_for_the_box("La nota debe estar en el rango de 0 a 10")
+                    style_error_for_the_box("La nota debe estar en el rango de 0 a 10",total_width)
             while True:
                 grade3 = float(style_input_for_the_box("Ingresa las notas de la Materia 3",total_width))
                 if grade3 > 0 and grade3 < 10:
                     break
                 else:
-                    style_error_for_the_box("La nota debe estar en el rango de 0 a 10")
+                    style_error_for_the_box("La nota debe estar en el rango de 0 a 10",total_width)
             while True:
                 grade4 = float(style_input_for_the_box("Ingresa las notas de la Materia 4",total_width))
                 if grade4 > 0 and grade4 < 10:
                     break
                 else:
-                    style_error_for_the_box("La nota debe estar en el rango de 0 a 10")
+                    style_error_for_the_box("La nota debe estar en el rango de 0 a 10",total_width)
             while True:
                 grade5 = float(style_input_for_the_box("Ingresa las notas de la Materia 5",total_width))
                 if grade5 > 0 and grade5 < 10:
                     break
                 else:
-                    style_error_for_the_box("La nota debe estar en el rango de 0 a 10")                        
+                    style_error_for_the_box("La nota debe estar en el rango de 0 a 10",total_width)                        
             student = {"name_student": student,
                         "id":id,
                         "age":age,
@@ -319,18 +319,20 @@ def create_student(student,total_width):
                         "grade5":grade5,          
                         }
             if check_if_the_student_exist(student["id"]):
-                style_text_for_the_box("El estudiante",student["name_student"], "ya esta registrado en el sistema",total_width)
+                style_error_for_the_box(("El estudiante",student["name_student"], "ya esta registrado en el sistema"),total_width)
             else:
                 STUDENTS.append(student)
                  #logs function
                 style_text_for_the_box("El estudiante se a añadido con exito",total_width)    
+                
         except ValueError as ex:
             style_error_for_the_box(f"Ingresa un valor valido. el error es:{ex}",total_width)
+            
     else:
         style_error_for_the_box("No has ingresado el estudiante de manera correcta",total_width)
 
 def show_datatable_studens():
-    data_table = system_constans.HEADERS_DATA_TABLE
+    data_table = [system_constans.HEADERS_DATA_TABLE]
     for student in STUDENTS:
         data_table.append([student["name_student"], 
                           student["id"],
@@ -341,7 +343,8 @@ def show_datatable_studens():
                           student["grade4"],
                           student["grade5"],
                          ])
-        total_width = paint_box(type="data_table",data_table=data_table)
+    total_width = paint_box(type="data_table",data_table=data_table)
+        
 
 def show_create_student():
     """
@@ -359,6 +362,14 @@ def show_create_student():
     while initial_create_status:
         student = style_input_for_the_box("Ingresa un nuevo estudiante",total_width)
         create_student(student,total_width)
+        other_student = style_input_for_the_box("Deseas añadir otro estudiante? SI(S)/NO(N)",total_width)
+        if other_student == "s" or other_student == "S":
+            continue
+        elif other_student == "n" or other_student == "N":
+            print(system_constans.CONSOLE_STYLING["CYAN"] + "╚" + "═" * total_width + "╝")
+            break
+        else:
+            style_error_for_the_box("Ingresa una opcion valida",total_width)    
 
 
 def show_main_menu():
@@ -395,13 +406,13 @@ def show_main_menu():
                             case "3": exit()
                         
                             case _:
-                                style_error_for_the_box("Ingresa una opcion valida")        
+                                style_error_for_the_box("Ingresa una opcion valida",total_width)        
                 case "2":
                     print("en construcion")
                 case "3": exit()
                 
                 case _:
-                    style_error_for_the_box("Ingresa una opcion valida")      
+                    style_error_for_the_box("Ingresa una opcion valida",total_width)      
     else: 
         text = system_constans.NO_STUDENTS_FOUND + system_constans.INFO_CREATE_STUDENT
         title = text_bold("ingreso inicial de estudiantes")
@@ -437,9 +448,9 @@ def show_main_menu():
                         elif you_are_sure == "n" or you_are_sure == "N":
                             continue
                         else:
-                            style_error_for_the_box("Ingresa una opcionvalida")
+                            style_error_for_the_box("Ingresa una opcionvalida",total_width)
                             continue
                 else:
-                    style_error_for_the_box("Ingresa una opcionvalida")
+                    style_error_for_the_box("Ingresa una opcionvalida",total_width)
                     continue
 show_main_menu()
